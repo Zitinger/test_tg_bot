@@ -1,4 +1,5 @@
 import asyncio
+import os
 from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand, ParseMode
 from handlers.solve_test import register_handlers_solve_test
@@ -6,6 +7,7 @@ from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from handlers.greet import register_handlers_greet
 from handlers.add_test import register_handlers_add_test
 from handlers.common import register_handlers_common
+from dotenv import load_dotenv, find_dotenv
 
 
 async def set_commands(bot: Bot):
@@ -19,7 +21,10 @@ async def set_commands(bot: Bot):
 
 
 async def main():
-    bot = Bot('5377228770:AAGmgxuDCnAe-aeO2B84BAbywxpZjix5btg', parse_mode=ParseMode.HTML)
+    load_dotenv(find_dotenv())
+    NIKITA_BOT_TOKEN = os.environ.get("NIKITA_BOT_TOKEN")
+
+    bot = Bot(NIKITA_BOT_TOKEN, parse_mode=ParseMode.HTML)
     dp = Dispatcher(bot, storage=MemoryStorage())
 
     register_handlers_common(dp)

@@ -32,10 +32,10 @@ async def first_question(message: types.Message, state: FSMContext):
     db = sqlite3.connect('database.db')
     cur = db.cursor()
     res = cur.execute(f'SELECT rowid, name FROM tests').fetchall()
-    right_answers = cur.execute(f"SELECT right_answers FROM tests WHERE test_id={int(message.text)}").fetchone()[0]
     if int(message.text) not in [n[0] for n in res]:
         await message.answer("Пожалуйста, укажите номер теста.")
         return
+    right_answers = cur.execute(f"SELECT right_answers FROM tests WHERE test_id={int(message.text)}").fetchone()[0]
     await state.update_data(right_answers=str(right_answers))
     await state.update_data(chosen_test=int(message.text))
 
